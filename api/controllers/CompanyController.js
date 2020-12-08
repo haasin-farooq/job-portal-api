@@ -40,8 +40,16 @@ module.exports = {
 
         return res.ok(companies);
     },
-    findOne(req, res) {
-        
+    async findOne(req, res) {
+        var id = req.param('id');
+
+        var company = await Company.findOne({id});
+
+        if(!company) {
+            return res.serverError();
+        }
+
+        return res.ok(company);
     },
     update(req, res) {
 
