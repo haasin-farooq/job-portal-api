@@ -5,6 +5,7 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
+
 module.exports = {
 
     async create(req, res) {
@@ -31,6 +32,7 @@ module.exports = {
 
         return res.ok(result);
     },
+
     async find(req, res) {
         var companies = await Company.find();
 
@@ -40,6 +42,7 @@ module.exports = {
 
         return res.ok(companies);
     },
+
     async findOne(req, res) {
         var id = req.param('id');
 
@@ -51,11 +54,54 @@ module.exports = {
 
         return res.ok(company);
     },
-    update(req, res) {
+    
+    async update(req, res) {
+        var params = req.allParams();
 
+        var attributes = {};
+
+        if(params.name) {
+            attributes.name = params.name;
+
+            var updatedCompany = await Company.update({id: params.id})
+            .set({
+                name: attributes.name
+            }).fetch();
+        }
+        if(params.city) {
+            attributes.city = params.city;
+
+            var updatedCompany = await Company.update({id: params.id})
+            .set({
+                city: attributes.city
+            }).fetch();
+        }
+        if(params.address) {
+            attributes.address = params.address;
+
+            var updatedCompany = await Company.update({id: params.id})
+            .set({
+                address: attributes.address
+            }).fetch();
+        }
+
+        if (!updatedCompany) {
+            return res.serverError();
+        }
+
+        return res.ok(updatedCompany);
     },
-    delete(req, res) {
+    
+    async delete(req, res) {
+        var id = req.param('id');
 
+        var deletedCompany = await Company.destroy({id}).fetch();
+
+        if(!deletedCompany) {
+            return res.serverError();
+        }
+
+        return res.ok(deletedCompany);
     }
 
 };
