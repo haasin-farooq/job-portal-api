@@ -16,7 +16,7 @@ module.exports = {
             const schema = Joi.object().keys({
                 email: Joi.string().required().email(),
                 password: Joi.string().required()
-            })
+            });
     
             const { email, password } = await schema.validateAsync(req.allParams());
             const encryptedPassword = await UtilService.hashPassword(password);
@@ -34,7 +34,34 @@ module.exports = {
     },
 
     login: async (req, res) => {
+        try {
+            const schema = Joi.object().keys({
+                email: Joi.string().required().email(),
+                password: Joi.string().required()
+            });
 
+            const { email, password } = await schema.validateAsync(req.allParams());
+
+            const user = await User.findOne({email});
+
+            if(!user) {
+                return res.notFound({err: 'user does not exist'});
+            }
+
+            const matchedPassword = await UtilService.comparePassword(password, user.password);
+
+            if(!matchedPassword) {
+                return res.badRequest({err: 'unauthorized'});
+            }
+
+            return res.ok(user);
+        } 
+        catch(err) {
+            if(err === 'ValidationError') {
+                return res.badRequest({err});
+            }
+            return res.serverError(err);
+        }
     }
 
 };
