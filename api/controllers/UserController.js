@@ -7,6 +7,7 @@
 
 
 const Joi = require('joi'); 
+const JWTService = require('../services/JWTService');
 const UtilService = require('../services/UtilService');
 
 module.exports = {
@@ -54,7 +55,9 @@ module.exports = {
                 return res.badRequest({err: 'unauthorized'});
             }
 
-            return res.ok(user);
+            const token = JWTService.issuer({user: user.id}, '1 day');
+
+            return res.ok(token);
         } 
         catch(err) {
             if(err === 'ValidationError') {
