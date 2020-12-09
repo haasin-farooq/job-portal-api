@@ -7,6 +7,7 @@
 
 
 const Joi = require('joi'); 
+const UtilService = require('../services/UtilService');
 
 module.exports = {
 
@@ -17,9 +18,10 @@ module.exports = {
                 password: Joi.string().required()
             })
     
-            const { email, password} = await schema.validateAsync(req.allParams());
+            const { email, password } = await schema.validateAsync(req.allParams());
+            const encryptedPassword = await UtilService.hashPassword(password);
 
-            const user = await User.create({email, password}).fetch();
+            const user = await User.create({email, password: encryptedPassword});
     
             return res.ok(user);
         } 
