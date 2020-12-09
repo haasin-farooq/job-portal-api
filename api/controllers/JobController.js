@@ -34,9 +34,13 @@ module.exports = {
   },
 
   find: async function (req, res) {
-    return res.json({
-      todo: 'find() is not implemented yet!'
-    });
+    const jobsWithDetails = await Job.find().populate('jobDetail');
+
+    if(!jobsWithDetails) {
+      return res.serverError();
+    }
+
+    return res.ok(jobsWithDetails);
   }
 
 };
