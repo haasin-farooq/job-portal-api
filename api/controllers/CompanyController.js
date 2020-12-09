@@ -34,7 +34,8 @@ module.exports = {
     },
 
     async find(req, res) {
-        var companies = await Company.find();
+        var companies = await Company.find()
+        .populate('jobs');
 
         if(!companies) {
             return res.serverError();
@@ -46,7 +47,8 @@ module.exports = {
     async findOne(req, res) {
         var id = req.param('id');
 
-        var company = await Company.findOne({id});
+        var company = await Company.findOne({id})
+        .populate('jobs');
 
         if(!company) {
             return res.serverError();
