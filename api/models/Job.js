@@ -9,11 +9,12 @@ module.exports = {
 
   attributes: {
     title: { 
-      type: 'string' 
+      type: 'string',
+      required: true
     },
-    detail: {
+    jobDetail: {
       model: 'JobDetail',
-      column: 'jobDetailId',
+      columnName: 'jobDetailId',
       required: true
     }
   },
