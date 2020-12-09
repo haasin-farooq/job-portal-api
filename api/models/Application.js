@@ -8,14 +8,14 @@
 module.exports = {
 
   attributes: {
-    job: {
-      model: 'Job',
-      columnName: 'jobId',
-      required: true
-    }, 
     candidate: {
       model: 'Candidate',
       columnName: 'candidateId',
+      required: true
+    },
+    job: {
+      model: 'Job',
+      columnName: 'jobId',
       required: true
     }
   },
