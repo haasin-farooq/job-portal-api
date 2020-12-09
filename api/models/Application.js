@@ -1,5 +1,5 @@
 /**
- * Candidate.js
+ * Application.js
  *
  * @description :: A model definition represents a database table/collection.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
@@ -8,18 +8,15 @@
 module.exports = {
 
   attributes: {
-    name: { 
-      type: 'string',
+    job: {
+      model: 'Job',
+      columnName: 'jobId',
       required: true
-    },
-    email: { 
-      type: 'string',
+    }, 
+    candidate: {
+      model: 'Candidate',
+      columnName: 'candidateId',
       required: true
-    },
-    jobs: {
-      collection: 'Job',
-      via: 'candidate',
-      through: 'Application'
     }
   },
 

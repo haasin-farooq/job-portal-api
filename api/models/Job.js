@@ -24,7 +24,8 @@ module.exports = {
     },
     candidates: {
       collection: 'Candidate',
-      via: 'jobs'
+      via: 'job',
+      through: 'Application'
     }
   },
 
